@@ -3,13 +3,29 @@
 import * as React from "react";
 import PlaceInfo from "./PlaceInfo";
 
-export type Place = {
+export interface Place {
   id: string;
   name: string;
   address: string;
   coordinates: {
     latitude: number;
     longitude: number;
+  };
+}
+
+type SearchResponse = {
+  features: Feature[];
+};
+
+type Feature = {
+  properties: {
+    mapbox_id: string;
+    name: string;
+    full_address: string;
+    coordinates: {
+      latitude: number;
+      longitude: number;
+    };
   };
 };
 
@@ -26,7 +42,7 @@ export default function MapSearch() {
     setIsLoading(true);
     try {
       const response = await fetch(`/api/mapbox/${encodeURIComponent(query)}`);
-      const data = await response.json();
+      const data = (await response.json()) as SearchResponse;
       console.log("data", data);
       setPlaces(
         data.features.map((feature) => {
