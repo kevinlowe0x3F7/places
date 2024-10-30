@@ -21,10 +21,25 @@ export const posts = createTable(
       .default(sql`(unixepoch())`)
       .notNull(),
     updatedAt: int("updated_at", { mode: "timestamp" }).$onUpdate(
-      () => new Date()
+      () => new Date(),
     ),
   },
   (example) => ({
     nameIndex: index("name_idx").on(example.name),
-  })
+  }),
+);
+
+export const savedPlaces = createTable(
+  "savedPlaces",
+  {
+    id: int("id", { mode: "number" }).primaryKey({ autoIncrement: true }),
+    placeId: text("place_id", { length: 256 }),
+    userId: text("user_id", { length: 256 }),
+    description: text("description", { length: 2560 }),
+  },
+  (table) => {
+    return {
+      userIdIndex: index("user_id_idx").on(table.userId),
+    };
+  },
 );
