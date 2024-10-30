@@ -64,6 +64,15 @@ export default function MapSearch() {
     }
   };
 
+  const onPlaceClick = React.useCallback((index: number) => {
+    setSelectedPlaceIndex((currIndex) => {
+      if (currIndex === index) {
+        return null;
+      }
+      return index;
+    });
+  }, []);
+
   return (
     <div className="flex flex-col gap-2">
       <form className="flex gap-2" onSubmit={handleSubmit}>
@@ -81,7 +90,7 @@ export default function MapSearch() {
         <div className="flex flex-col gap-2">
           {places.length > 0 ? (
             places.map((place, i) => (
-              <p key={place.id} onClick={() => setSelectedPlaceIndex(i)}>
+              <p key={place.id} onClick={() => onPlaceClick(i)}>
                 {place.name}
               </p>
             ))
