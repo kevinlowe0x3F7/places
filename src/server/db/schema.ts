@@ -33,9 +33,9 @@ export const savedPlaces = createTable(
   "savedPlaces",
   {
     id: int("id", { mode: "number" }).primaryKey({ autoIncrement: true }),
-    placeId: text("place_id", { length: 256 }),
-    userId: text("user_id", { length: 256 }),
-    description: text("description", { length: 2560 }),
+    placeId: text("place_id", { length: 256 }).notNull(),
+    userId: text("user_id", { length: 256 }).notNull(),
+    description: text("description", { length: 2560 }).notNull(),
   },
   (table) => {
     return {
